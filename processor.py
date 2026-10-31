@@ -117,11 +117,10 @@ def ask_claude(transcript: str, state: dict, client=None) -> dict:
         system=SYSTEM + "\n\nOutput format: reply with ONE JSON object and nothing else, matching this JSON schema exactly:\n" + schema_txt,
         messages=[
             {"role": "user", "content": f"BOARD STATE\n{board_digest(state)}\n\nTRANSCRIPT (newest 30s)\n{transcript.strip()}"},
-            {"role": "assistant", "content": "{"},
         ],
     )
     text = "".join(getattr(b, "text", "") for b in msg.content)
-    out = _extract_json("{" + text)
+    out = _extract_json(text)
     for k, default in (("focus", None), ("updates", []), ("steps", []), ("actions", []), ("new_ventures", []), ("heard", "")):
         out.setdefault(k, default)
     return out
