@@ -76,6 +76,56 @@ async def transcript(req: Request):
     return {"ok": True}
 
 
+# ---- 1b. send the meeting bot into a call -----------------------------------
+RECALL_KEY = os.environ.get("RECALL_API_KEY", "")
+RECALL_REGION = os.environ.get("RECALL_REGION", "us-west-2")
+PUBLIC_URL = os.environ.get("PUBLIC_URL", "https://board-engine.onrender.com")
+
+
+@app.get("/join")
+async def join(req: Request):
+    """GET /join?t=<BOARD_TOKEN>&url=<meeting link>  → sends the Recall bot to the call,
+    streaming finalized captions back to /transcript."""
+    check_token(req)
+    url = req.query_params.get("url", "").strip()
+    if not url:
+        return HTMLResponse(f"""<form style="font:18px system-ui;max-width:560px;margin:40px auto">
+          <h2>Send Claude to a call</h2>
+          <input type="hidden" name="t" value="{TOKEN}">
+          <input name="url" placeholder="Paste the Google Meet / Zoom link" style="width:100%;font:inherit;padding:12px">
+          <button style="font:inherit;padding:12px 18px;margin-top:12px">Join</button></form>""")
+    if not RECALL_KEY:
+        raise HTTPException(500, "RECALL_API_KEY is not set on the server")
+    import urllib.request
+    payload = {
+        "meeting_url": url,
+        "bot_name": os.environ.get("BOT_NAME", "Claude"),
+        "recording_config": {
+            "transcript": {"provider": {"meeting_captions": {}}},
+            "realtime_endpoints": [{
+                "type": "webhook",
+                "url": f"{PUBLIC_URL}/transcript",
+                "events": ["transcript.data"],
+            }],
+        },
+    }
+    r = urllib.request.Request(
+        f"https://{RECALL_REGION}.recall.ai/api/v1/bot/",
+        data=json.dumps(payload).encode(),
+        headers={"Authorization": f"Token {RECALL_KEY}", "Content-Type": "application/json"},
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(r, timeout=30) as resp:
+            out = json.loads(resp.read())
+    except urllib.error.HTTPError as e:
+        raise HTTPException(e.code, e.read().decode()[:500])
+    buffer.append(f"Board: Claude's listener was sent to the call ({url}).")
+    return HTMLResponse(f"""<div style="font:18px system-ui;max-width:560px;margin:40px auto">
+      <h2>Bot sent</h2><p>“{payload['bot_name']}” is joining. Admit it when Meet asks. Bot id: <code>{out.get('id')}</code></p>
+      <p><a href="/?t={TOKEN}">Open the board</a></p></div>""")
+
+
 # ---- 2. tick: transcript → board -------------------------------------------
 async def ticker():
     while True:
