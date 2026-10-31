@@ -1,0 +1,253 @@
+{
+ "ventures": [
+  {
+   "name": "AI Personas \u2192 Products",
+   "tagline": "AI personas on Instagram and Fanvue as the first layer of a persona \u2192 physical-product stack.",
+   "status": "active",
+   "order": 2,
+   "summary": "Started executing Oct 28: building AI personas with Instagram pages connected to Fanvue. Thesis is that physical products bridge AI personas and fans, and that persona products can use standard molds (Fleshlight-style) at ~$200 instead of per-creator casting at ~$700. Goal is a defensible, non-commoditized brand, monetized beyond content.",
+   "nextSteps": [
+    {
+     "id": "ai-personas-1",
+     "text": "Launch the first persona Instagram page and Fanvue link",
+     "owner": "Paul",
+     "done": false
+    },
+    {
+     "id": "ai-personas-2",
+     "text": "Define the first persona product and its standard-mold cost",
+     "owner": "John",
+     "done": false
+    },
+    {
+     "id": "ai-personas-3",
+     "text": "Map the AI companion / AI creator landscape for where to play",
+     "owner": "John / Paul",
+     "done": false
+    }
+   ],
+   "updatedAt": "2026-10-31T15:40:00Z",
+   "updatedBy": "Claude (seed)",
+   "id": "ai-personas"
+  },
+  {
+   "name": "Stepped On",
+   "tagline": "Marketplace for items stepped on by a particular creator.",
+   "status": "parked",
+   "order": 10,
+   "summary": "Early idea, Oct 2026.",
+   "nextSteps": [],
+   "updatedAt": "2026-10-31T15:40:00Z",
+   "updatedBy": "Claude (seed)",
+   "id": "stepped-on"
+  },
+  {
+   "name": "Operating Partner for Equity",
+   "tagline": "Fractional strategy-and-execution partner for lower-middle-market independent sponsors, paid part cash, part equity.",
+   "status": "exploring",
+   "order": 8,
+   "summary": "With Mike Connerty. Target sponsors acquiring $3\u201315M EBITDA companies; equity share scales inversely with company size; staffed with a bench of independent consultants. At the go/no-go assessment stage.",
+   "nextSteps": [
+    {
+     "id": "operating-partner-1",
+     "text": "Finish the go/no-go assessment with Mike",
+     "owner": "John",
+     "done": false
+    }
+   ],
+   "updatedAt": "2026-10-31T15:40:00Z",
+   "updatedBy": "Claude (seed)",
+   "id": "operating-partner"
+  },
+  {
+   "name": "Creator Football League",
+   "tagline": "A lewd OnlyFans-creator football league, streamed behind a paywall.",
+   "status": "parked",
+   "order": 9,
+   "summary": "Trial shape: ~60 creators, one long weekend at a rented indoor stadium, TV crew, cut into a six-game season. Creators join for followers, content and networking.",
+   "nextSteps": [],
+   "updatedAt": "2026-10-31T15:40:00Z",
+   "updatedBy": "Claude (seed)",
+   "id": "creator-football"
+  },
+  {
+   "name": "Chapter 11 Claims Trading",
+   "tagline": "Buying unsecured trade claims in bankruptcies, priced with phone-based operating diligence.",
+   "status": "exploring",
+   "order": 7,
+   "summary": "Edge is CDD-style phone diligence to price claims better than the average broker; intel gathering could scale with VAs. Still testing whether the work is engaging enough to commit.",
+   "nextSteps": [
+    {
+     "id": "claims-trading-1",
+     "text": "Review a handful of live cases and claims before committing",
+     "owner": "John",
+     "done": false
+    }
+   ],
+   "updatedAt": "2026-10-31T15:40:00Z",
+   "updatedBy": "Claude (seed)",
+   "id": "claims-trading"
+  },
+  {
+   "name": "Suzu Night Shift",
+   "tagline": "Cooling hydrogel nape sheet for women who sleep hot, under the SUZU brand.",
+   "status": "active",
+   "order": 4,
+   "summary": "Came out of the import-gap scan and a shortlist of three cooling concepts. RFQs are out to Asian gel-sheet suppliers for a custom nape-shaped sheet, ahead of a paid-ads demand test.",
+   "nextSteps": [
+    {
+     "id": "suzu-night-shift-1",
+     "text": "Collect and compare supplier RFQ responses",
+     "owner": "John",
+     "done": false
+    },
+    {
+     "id": "suzu-night-shift-2",
+     "text": "Set up the paid-ads demand test page and creative",
+     "owner": "John",
+     "done": false
+    }
+   ],
+   "updatedAt": "2026-10-31T15:40:00Z",
+   "updatedBy": "Claude (seed)",
+   "id": "suzu-night-shift"
+  },
+  {
+   "name": "Hands and Feet",
+   "tagline": "Luxury silicone hand and foot replicas of creators \u2014 two SKUs, unpainted and painted.",
+   "status": "active",
+   "order": 1,
+   "summary": "Process has shifted to a Polycam phone scan of the creator \u2192 3D cast \u2192 shipped to Lisa for the production mold. Creator acquisition is the bottleneck: the cold-DM test (~30 FeetFinder creators) got one reply, so the current lean is paid placement with \u201cnode\u201d accounts creators follow, plus walkthrough videos showing process, product and earnings. Mystique is the anchor agency; trade-show circuit planned for the next 4\u20136 months (OF, comic con, fitness, streaming). Pricing is being reworked so creators set their own price and earn a higher share at higher price points.",
+   "nextSteps": [
+    {
+     "id": "hands-and-feet-1",
+     "text": "Run the scan \u2192 cast \u2192 mold workflow end to end on the first creator",
+     "owner": "John",
+     "done": false
+    },
+    {
+     "id": "hands-and-feet-2",
+     "text": "Line up 2\u20133 node accounts and price a paid-placement test",
+     "owner": "John",
+     "done": false
+    },
+    {
+     "id": "hands-and-feet-3",
+     "text": "Draft the creator-sets-price payout tiers",
+     "owner": "Paul",
+     "done": false
+    },
+    {
+     "id": "hands-and-feet-4",
+     "text": "Book the next two trade shows and build the agency target list",
+     "owner": "John",
+     "done": false
+    },
+    {
+     "id": "hands-and-feet-5",
+     "text": "Decide on Lisa\u2019s head-of-production offer and timing",
+     "owner": "John",
+     "done": false
+    }
+   ],
+   "updatedAt": "2026-10-31T15:40:00Z",
+   "updatedBy": "Claude (seed)",
+   "id": "hands-and-feet"
+  },
+  {
+   "name": "Men\u2019s Fiber Shake",
+   "tagline": "A fiber shake for men, positioned and branded like a protein shake.",
+   "status": "exploring",
+   "order": 6,
+   "summary": "Most men under-eat fiber. The idea is to change how fiber is perceived through branding, campaign, form factor and intended use, borrowing the protein-shake playbook.",
+   "nextSteps": [
+    {
+     "id": "fiber-shake-1",
+     "text": "Sketch positioning and a first formulation brief",
+     "owner": "John",
+     "done": false
+    }
+   ],
+   "updatedAt": "2026-10-31T15:40:00Z",
+   "updatedBy": "Claude (seed)",
+   "id": "fiber-shake"
+  },
+  {
+   "name": "Working Board Engine",
+   "tagline": "This board, plus the call listener and Claude operator behind it.",
+   "status": "active",
+   "order": 5,
+   "summary": "Live venture board viewed in Vision Pro Safari, updated from working-call transcripts by Claude. Mac-free path: a meeting bot joins the call and streams the transcript to a processor, which writes board updates and queues actions.",
+   "nextSteps": [
+    {
+     "id": "vision-pro-engine-1",
+     "text": "Board built and seeded",
+     "owner": "Claude",
+     "done": true
+    },
+    {
+     "id": "vision-pro-engine-2",
+     "text": "Build the transcript \u2192 board processor",
+     "owner": "Claude",
+     "done": false
+    },
+    {
+     "id": "vision-pro-engine-3",
+     "text": "Connect a meeting bot to Zoom / Meet",
+     "owner": "Claude",
+     "done": false
+    },
+    {
+     "id": "vision-pro-engine-4",
+     "text": "Share the board with Paul and test on a live call",
+     "owner": "John",
+     "done": false
+    }
+   ],
+   "updatedAt": "2026-10-31T15:40:00Z",
+   "updatedBy": "Claude (seed)",
+   "id": "vision-pro-engine"
+  },
+  {
+   "name": "Reliquie",
+   "tagline": "A creator keepsake auction house: creators fill a box with personal items, we run and promote the auction.",
+   "status": "exploring",
+   "order": 3,
+   "summary": "Lighter-ops adult business to run alongside Hands and Feet, using the same payment, banking and agency relationships. Value is in promotion and curation, not just processing the sale.",
+   "nextSteps": [
+    {
+     "id": "reliquie-1",
+     "text": "Test with 2\u20133 creators already in the HNF pipeline",
+     "owner": "John",
+     "done": false
+    },
+    {
+     "id": "reliquie-2",
+     "text": "Check auction mechanics and platform options",
+     "owner": "Claude",
+     "done": false
+    }
+   ],
+   "updatedAt": "2026-10-31T15:40:00Z",
+   "updatedBy": "Claude (seed)",
+   "id": "reliquie"
+  },
+  {
+   "name": "Event-Driven Arbitrage",
+   "tagline": "Fast, feed-driven bets on geopolitics and commodities using own capital.",
+   "status": "parked",
+   "order": 11,
+   "summary": "News-feed tells \u2192 a few hours of calls \u2192 decide \u2192 1\u20133 weeks of execution. Research must stay short; wants bets on commonplace events in corner markets, not once-in-a-generation ones.",
+   "nextSteps": [],
+   "updatedAt": "2026-10-31T15:40:00Z",
+   "updatedBy": "Claude (seed)",
+   "id": "event-arbitrage"
+  }
+ ],
+ "board": {
+  "active": "hands-and-feet",
+  "activeSince": "2026-10-31T15:40:00Z",
+  "lastHeard": "Board seeded from John\u2019s notes. Listener not connected yet."
+ },
+ "actions": []
+}

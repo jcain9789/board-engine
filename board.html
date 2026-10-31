@@ -1,0 +1,250 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Cain Working Board</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a wide "stage" — the venture being discussed sits large on the left, the rest of the
+   portfolio as a compact grid beneath it, and a narrow operator column on the right where
+   Claude's actions land. Built for a headset window: big type, generous targets, dark-first. */
+:root{
+  --bg:#0d1117; --panel:#151b24; --panel-2:#1b2330; --line:#28313f; --line-2:#36414f;
+  --fg:#e9edf3; --fg-2:#aab4c3; --fg-3:#6f7b8c;
+  --accent:#f0a64a; --accent-ink:#1a1206;
+  --ok:#5fcf8a; --info:#6aa7f5; --warn:#f0c24a; --crit:#f0705c; --mute:#7c8797;
+  --display:"Bricolage Grotesque","Avenir Next","Helvetica Neue",Arial,sans-serif;
+  --body:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --r:14px; --r-sm:9px;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){
+  --bg:#f3f1ec; --panel:#ffffff; --panel-2:#f7f5f0; --line:#e1ddd4; --line-2:#cfc9bd;
+  --fg:#17191d; --fg-2:#4c5260; --fg-3:#8a8f9a;
+  --accent:#c9741a; --accent-ink:#fff7ec;
+  --ok:#1f9b57; --info:#2f6fd0; --warn:#b98a12; --crit:#cf4a35; --mute:#8a8f9a;
+  color-scheme:light;
+}}
+:root[data-theme="light"]{
+  --bg:#f3f1ec; --panel:#ffffff; --panel-2:#f7f5f0; --line:#e1ddd4; --line-2:#cfc9bd;
+  --fg:#17191d; --fg-2:#4c5260; --fg-3:#8a8f9a;
+  --accent:#c9741a; --accent-ink:#fff7ec;
+  --ok:#1f9b57; --info:#2f6fd0; --warn:#b98a12; --crit:#cf4a35; --mute:#8a8f9a;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.5 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0 32px;}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+a{color:var(--info)}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1480px;margin:0 auto;display:grid;gap:22px;padding-top:18px}
+
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+h1{font:700 30px/1.05 var(--display);letter-spacing:-.01em;margin:0;text-wrap:balance}
+.date{font:500 13px/1 var(--mono);color:var(--fg-3);letter-spacing:.04em;text-transform:uppercase}
+.live{display:inline-flex;align-items:center;gap:8px;font:500 13px/1 var(--mono);color:var(--fg-2);
+  border:1px solid var(--line);border-radius:999px;padding:8px 12px;background:var(--panel)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--mute)}
+.live[data-state="live"] .dot{background:var(--ok);box-shadow:0 0 0 4px color-mix(in srgb,var(--ok) 22%,transparent)}
+.live[data-state="stale"] .dot{background:var(--warn)}
+.live[data-state="off"] .dot{background:var(--crit)}
+@media (prefers-reduced-motion:no-preference){
+  .live[data-state="live"] .dot{animation:pulse 2.4s ease-in-out infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 3px color-mix(in srgb,var(--ok) 25%,transparent)}50%{box-shadow:0 0 0 7px color-mix(in srgb,var(--ok) 0%,transparent)}}
+}
+
+/* stage */
+.stage{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:22px;align-items:start}
+@media (max-width:1100px){.stage{grid-template-columns:minmax(0,1fr)}}
+.col{display:grid;gap:22px;min-width:0}
+
+.focus{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:26px 28px;display:grid;gap:18px;min-width:0}
+.focus .eyebrow{display:flex;align-items:center;gap:12px;font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.focus .eyebrow .dot{background:var(--accent)}
+.focus h2{font:700 clamp(30px,3.4vw,44px)/1.02 var(--display);letter-spacing:-.015em;margin:0;text-wrap:balance}
+.focus .head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.summary{font-size:18px;line-height:1.55;color:var(--fg);max-width:68ch;margin:0;white-space:pre-line}
+.meta{font:400 13px/1.4 var(--mono);color:var(--fg-3)}
+
+.pill{display:inline-flex;align-items:center;gap:6px;font:500 12px/1 var(--mono);letter-spacing:.05em;text-transform:uppercase;
+  padding:6px 10px;border-radius:999px;border:1px solid var(--line-2);color:var(--fg-2);white-space:nowrap}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.pill[data-s="active"]{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 45%,var(--line))}
+.pill[data-s="exploring"]{color:var(--info);border-color:color-mix(in srgb,var(--info) 45%,var(--line))}
+.pill[data-s="blocked"]{color:var(--crit);border-color:color-mix(in srgb,var(--crit) 45%,var(--line))}
+.pill[data-s="parked"]{color:var(--mute)}
+.pill[data-s="done"]{color:var(--fg-3)}
+
+.steps{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.steps h3,.sec h3{font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--fg-3);margin:0 0 6px}
+.step{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:12px;align-items:start;padding:12px 14px;border-radius:var(--r-sm);
+  background:var(--panel-2);border:1px solid var(--line)}
+.step .box{width:24px;height:24px;border-radius:7px;border:2px solid var(--line-2);display:grid;place-items:center;margin-top:1px}
+.step .box svg{width:14px;height:14px;display:none}
+.step[data-done="1"] .box{background:var(--ok);border-color:var(--ok)}
+.step[data-done="1"] .box svg{display:block}
+.step[data-done="1"] .txt{color:var(--fg-3);text-decoration:line-through;text-decoration-color:var(--line-2)}
+.step .txt{font-size:17px;line-height:1.45;min-width:0;overflow-wrap:anywhere}
+.owner{font:500 12px/1 var(--mono);letter-spacing:.04em;padding:6px 9px;border-radius:7px;background:var(--panel);border:1px solid var(--line);color:var(--fg-2);white-space:nowrap}
+.owner[data-o="john"]{color:var(--accent)}
+.owner[data-o="paul"]{color:var(--info)}
+.owner[data-o="claude"]{color:var(--ok)}
+.empty{color:var(--fg-3);font-size:15px;padding:14px;border:1px dashed var(--line-2);border-radius:var(--r-sm)}
+
+/* portfolio grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.card{text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:grid;gap:10px;min-width:0;
+  transition:border-color .15s,transform .15s}
+.card:hover{border-color:var(--line-2);transform:translateY(-1px)}
+.card[data-active="1"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.card .name{font:700 19px/1.15 var(--display);letter-spacing:-.01em;text-wrap:balance}
+.card .row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.card .one{color:var(--fg-2);font-size:15px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card .open{font:500 12px/1 var(--mono);color:var(--fg-3)}
+.card .open b{color:var(--fg);font-weight:500;font-variant-numeric:tabular-nums}
+
+/* operator column */
+.sec{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;display:grid;gap:14px;min-width:0}
+.heard{font-size:15px;line-height:1.5;color:var(--fg-2);font-style:italic;border-left:3px solid var(--accent);padding-left:12px;margin:0;overflow-wrap:anywhere}
+.acts{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.act{display:grid;gap:6px;padding:12px 14px;border-radius:var(--r-sm);background:var(--panel-2);border:1px solid var(--line)}
+.act .t{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.act .title{font-size:15.5px;line-height:1.4;min-width:0;overflow-wrap:anywhere}
+.act .sub{font:400 12.5px/1.45 var(--mono);color:var(--fg-3);overflow-wrap:anywhere}
+.act .sub a{color:var(--info);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--info) 50%,transparent)}
+.pill[data-s="queued"]{color:var(--mute)}
+.pill[data-s="running"]{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 45%,var(--line))}
+.pill[data-s="done"]{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 45%,var(--line))}
+.pill[data-s="needs-go"]{color:var(--crit);border-color:color-mix(in srgb,var(--crit) 45%,var(--line))}
+.pill[data-s="failed"]{color:var(--crit)}
+.how{font-size:14px;line-height:1.5;color:var(--fg-3)}
+.how code{font:12.5px var(--mono);background:var(--panel-2);padding:2px 6px;border-radius:5px;border:1px solid var(--line)}
+.notice{font:400 13px/1.4 var(--mono);color:var(--warn)}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <h1>Cain Working Board</h1>
+      <span class="date" id="today"></span>
+    </div>
+    <span class="live" id="live" data-state="off"><span class="dot"></span><span id="liveTxt">Connecting</span></span>
+  </header>
+
+  <div class="stage">
+    <div class="col">
+      <section class="focus" id="focus" aria-live="polite">
+        <div class="eyebrow"><span class="dot"></span><span>Now discussing</span></div>
+        <div class="head"><h2 id="fName">Waiting for the first venture</h2><span class="pill" id="fStatus" data-s="parked" hidden></span></div>
+        <p class="summary" id="fSummary">Cards appear here as ventures are added. Say “move to Hands and Feet” on a call, or tap a card below, to bring one into focus.</p>
+        <div>
+          <h3>Next steps</h3>
+          <ul class="steps" id="fSteps"></ul>
+        </div>
+        <div class="meta" id="fMeta"></div>
+      </section>
+
+      <section>
+        <h3 style="font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--fg-3);margin:0 0 10px">Portfolio</h3>
+        <div class="grid" id="grid"><div class="empty">No ventures yet.</div></div>
+      </section>
+    </div>
+
+    <aside class="col">
+      <section class="sec">
+        <h3>Last heard</h3>
+        <p class="heard" id="heard">Nothing yet. When the listener is connected, the latest thing the call processor acted on shows here.</p>
+        <div class="notice" id="notice" hidden></div>
+      </section>
+      <section class="sec">
+        <h3>Claude is working on</h3>
+        <ul class="acts" id="acts"><li class="empty">No actions yet. Say “Claude, run the margin analysis” and it lands here with a status.</li></ul>
+      </section>
+      <section class="sec">
+        <h3>Voice commands</h3>
+        <div class="how">
+          “<b>Move to</b> Suzu” switches focus · “<b>Next step for</b> Paul: …” adds a step · “<b>Mark</b> … <b>done</b>” · “<b>Claude, run</b> …” queues an action · “<b>Park</b> this” / “<b>This is active</b>” changes status.
+        </div>
+      </section>
+    </aside>
+  </div>
+</div>
+
+<script>
+(function(){
+  const $=id=>document.getElementById(id);
+  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  $('today').textContent=new Date().toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'});
+
+  let db=null, canWrite=null;
+  let ventures=[], state={}, actions=[];
+  let liveTimer=null;
+
+  function setLive(s,txt){ const el=$('live'); el.dataset.state=s; $('liveTxt').textContent=txt; }
+  function rel(ts){ if(!ts) return ''; const d=new Date(ts); if(isNaN(d)) return ''; const m=Math.round((Date.now()-d)/60000);
+    if(m<1) return 'just now'; if(m<60) return m+' min ago'; const h=Math.round(m/60); if(h<24) return h+' h ago'; return d.toLocaleDateString(undefined,{month:'short',day:'numeric'}); }
+  function ownerKey(o){ return String(o||'').trim().toLowerCase().split(/\s|\//)[0]||''; }
+  function owners(o){ if(!o) return '<span class="owner">unassigned</span>'; return String(o).split(/[,/&]| and /).map(x=>x.trim()).filter(Boolean)
+    .map(x=>`<span class="owner" data-o="${esc(ownerKey(x))}">${esc(x)}</span>`).join(' '); }
+  const checkSvg='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg>';
+
+  function activeVenture(){
+    if(!ventures.length) return null;
+    return ventures.find(v=>v.id===state.active) || ventures.slice().sort((a,b)=>(b.updatedAt||'').localeCompare(a.updatedAt||''))[0];
+  }
+
+  function render(){
+    const v=activeVenture();
+    const grid=$('grid');
+    if(!ventures.length){ grid.innerHTML='<div class="empty">No ventures yet.</div>'; }
+    else{
+      const sorted=ventures.slice().sort((a,b)=>(a.order??99)-(b.order??99) || a.name.localeCompare(b.name));
+      grid.innerHTML=sorted.map(x=>{
+        const open=(x.nextSteps||[]).filter(s=>!s.done).length;
+        return `<button class="card" data-id="${esc(x.id)}" data-active="${v&&x.id===v.id?1:0}" aria-pressed="${v&&x.id===v.id}">
+          <div class="row"><span class="name">${esc(x.name)}</span><span class="pill" data-s="${esc(x.status||'exploring')}">${esc(x.status||'exploring')}</span></div>
+          <div class="one">${esc(x.tagline||x.summary||'')}</div>
+          <div class="open"><b>${open}</b> open step${open===1?'':'s'}${x.updatedAt?' · '+esc(rel(x.updatedAt)):''}</div>
+        </button>`; }).join('');
+      grid.querySelectorAll('.card').forEach(b=>b.addEventListener('click',()=>focusOn(b.dataset.id)));
+    }
+    if(v){
+      $('fName').textContent=v.name;
+      const st=$('fStatus'); st.hidden=false; st.dataset.s=v.status||'exploring'; st.textContent=v.status||'exploring';
+      $('fSummary').textContent=v.summary||v.tagline||'No summary yet.';
+      const steps=(v.nextSteps||[]);
+      $('fSteps').innerHTML=steps.length?steps.map((s,i)=>`<li class="step" data-done="${s.done?1:0}">
+          <button class="box" data-i="${i}" aria-label="${s.done?'Reopen':'Mark done'}: ${esc(s.text)}">${checkSvg}</button>
+          <span class="txt">${esc(s.text)}</span><span>${owners(s.owner)}</span></li>`).join('')
+        :'<li class="empty">No next steps yet. Assign one out loud and it appears here.</li>';
+      $('fSteps').querySelectorAll('.box').forEach(b=>b.addEventListener('click',()=>toggleStep(v,+b.dataset.i)));
+      $('fMeta').textContent=(v.updatedAt?'Updated '+rel(v.updatedAt):'')+(v.updatedBy?' by '+v.updatedBy:'');
+    }
+    $('heard').textContent=state.lastHeard||'Nothing yet. When the listener is connected, the latest thing the call processor acted on shows here.';
+    const acts=$('acts');
+    acts.innerHTML=actions.length?actions.map(a=>`<li class="act">
+        <div class="t"><span class="title">${esc(a.title)}</span><span class="pill" data-s="${esc(a.status||'queued')}">${esc((a.status||'queued').replace('-',' '))}</span></div>
+        <div class="sub">${a.resultUrl?`<a href="${esc(a.resultUrl)}" target="_blank" rel="noopener">Open result</a> · `:''}${esc(a.note||'')}${a.venture?' · '+esc(a.venture):''}${a.createdAt?' · '+esc(rel(a.createdAt)):''}</div>
+      </li>`).join('')
+      :'<li class="empty">No actions yet. Say “Claude, run the margin analysis” and it lands here with a status.</li>';
+  }
+
+  const T=new URLSearchParams(location.search).get('t')||'';
+  async function post(path,body){ try{ await fetch(path+'?t='+encodeURIComponent(T),{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}); }catch(e){} }
+  function focusOn(id){ post('/say',{text:'Board: move to '+ (ventures.find(v=>v.id===id)||{}).name}); state={...state,active:id}; render(); }
+  function toggleStep(v,i){ const s=v.nextSteps[i]; if(!s) return; post('/say',{text:'Board: mark "'+s.text+'" '+(s.done?'not done':'done')+' on '+v.name}); s.done=!s.done; render(); }
+  function armLiveTimer(){ clearTimeout(liveTimer); liveTimer=setTimeout(()=>setLive('stale','Reconnecting'),10000); }
+  function start(){
+    render(); armLiveTimer();
+    const es=new EventSource('/events?t='+encodeURIComponent(T));
+    es.onmessage=e=>{ const st=JSON.parse(e.data); ventures=st.ventures||[]; state=st.board||{}; actions=(st.actions||[]).slice().sort((a,b)=>(b.createdAt||'').localeCompare(a.createdAt||'')).slice(0,20); clearTimeout(liveTimer); setLive('live','Live'); render(); };
+    es.onerror=()=>setLive('stale','Reconnecting');
+  }
+  start();
+})();
+</script></body></html>
