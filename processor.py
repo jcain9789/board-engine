@@ -93,23 +93,38 @@ def board_digest(state: dict) -> str:
     return "\n".join(lines)
 
 
+def _extract_json(text: str) -> dict:
+    """Pull the first JSON object out of a model reply (tolerates code fences / prose)."""
+    text = text.strip()
+    if text.startswith("```"):
+        text = text.split("```", 2)[1]
+        text = text[text.find("{"):]
+    start, end = text.find("{"), text.rfind("}")
+    if start < 0 or end < 0:
+        raise ValueError("no JSON object in reply")
+    return json.loads(text[start:end + 1])
+
+
 def ask_claude(transcript: str, state: dict, client=None) -> dict:
-    """Call Claude with a forced JSON tool so the output always matches SCHEMA."""
+    """Call Claude and parse a JSON object matching SCHEMA from its reply."""
     if client is None:
         import anthropic  # pip install anthropic
         client = anthropic.Anthropic()
+    schema_txt = json.dumps(SCHEMA, indent=0)
     msg = client.messages.create(
         model=MODEL,
         max_tokens=1500,
-        system=SYSTEM,
-        tools=[{"name": "board_changes", "description": "The changes to apply to the board.", "input_schema": SCHEMA}],
-        tool_choice={"type": "tool", "name": "board_changes"},
-        messages=[{"role": "user", "content": f"BOARD STATE\n{board_digest(state)}\n\nTRANSCRIPT (newest 30s)\n{transcript.strip()}"}],
+        system=SYSTEM + "\n\nOutput format: reply with ONE JSON object and nothing else, matching this JSON schema exactly:\n" + schema_txt,
+        messages=[
+            {"role": "user", "content": f"BOARD STATE\n{board_digest(state)}\n\nTRANSCRIPT (newest 30s)\n{transcript.strip()}"},
+            {"role": "assistant", "content": "{"},
+        ],
     )
-    for block in msg.content:
-        if block.type == "tool_use":
-            return block.input
-    raise RuntimeError("no tool output")
+    text = "".join(getattr(b, "text", "") for b in msg.content)
+    out = _extract_json("{" + text)
+    for k, default in (("focus", None), ("updates", []), ("steps", []), ("actions", []), ("new_ventures", []), ("heard", "")):
+        out.setdefault(k, default)
+    return out
 
 
 def apply(changes: dict, state: dict) -> list[dict]:
